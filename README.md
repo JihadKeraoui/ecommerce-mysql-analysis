@@ -1,68 +1,93 @@
-# E-commerce Sales & Customer Analysis — MySQL & Docker
+# 📊 E-commerce Sales & Customer Analysis — MySQL, Docker & Python
 
-## 📌 Présentation
+Analyse complète des ventes et des clients d'une plateforme e-commerce à l'aide de **MySQL**, **SQL**, **Docker**, **Python**, **Pandas** et **Matplotlib**.
 
-Ce projet consiste à réaliser une analyse complète des ventes et des clients d'une plateforme e-commerce à l'aide de **MySQL**, **SQL**, **Python** et **Docker**.
+Le projet couvre l'ensemble du processus d'analyse :
 
-L'objectif est de construire une base de données relationnelle, d'intégrer un jeu de données réaliste, puis d'utiliser SQL pour analyser les performances commerciales, les produits, les clients, les régions et l'évolution des ventes dans le temps.
-
-Le projet met également en œuvre des fonctionnalités SQL avancées telles que :
-
-- les jointures ;
-- les sous-requêtes ;
-- les CTE ;
-- les fonctions fenêtre ;
-- les vues SQL ;
-- les agrégations ;
-- les calculs de KPI ;
-- l'analyse de la marge ;
-- le contrôle de la qualité des données.
-
-Les visualisations et le dashboard seront réalisés dans une étape ultérieure.
+**Génération des données → Modélisation MySQL → Qualité des données → Analyse SQL → KPI → Analyses avancées → Visualisations Python → GitHub**
 
 ---
 
-# 🎯 Objectifs du projet
+## 🎯 Objectifs du projet
 
-Les principaux objectifs sont :
+Ce projet a pour objectif de construire une analyse complète d'une base de données e-commerce afin de répondre à plusieurs questions métier :
 
-1. Concevoir une base de données relationnelle e-commerce.
-2. Créer les différentes tables et leurs relations.
-3. Générer et intégrer un jeu de données réaliste.
-4. Contrôler la qualité et la cohérence des données.
-5. Analyser le chiffre d'affaires et les ventes.
-6. Identifier les produits et catégories les plus performants.
-7. Analyser les clients et leur comportement d'achat.
-8. Comparer les performances des différentes régions.
-9. Étudier l'évolution des ventes dans le temps.
-10. Calculer des indicateurs clés de performance (KPI).
-11. Utiliser des fonctionnalités SQL avancées.
-12. Préparer les résultats pour les futures visualisations et le dashboard.
+- Quel est le chiffre d'affaires total ?
+- Quelles sont les catégories les plus performantes ?
+- Quels sont les produits qui génèrent le plus de chiffre d'affaires ?
+- Quels sont les meilleurs clients ?
+- Quelles régions génèrent le plus de revenus ?
+- Comment évoluent les ventes dans le temps ?
+- Quelle est la marge brute par catégorie ?
+- Quels clients n'ont jamais effectué de commande ?
+- Quels produits n'ont jamais été vendus ?
+- Comment identifier les tendances et performances commerciales ?
+
+Le projet permet également de mettre en pratique des techniques SQL avancées :
+
+- `JOIN`
+- `GROUP BY`
+- `HAVING`
+- sous-requêtes
+- `CTE`
+- fonctions de fenêtre
+- `RANK`
+- `DENSE_RANK`
+- `ROW_NUMBER`
+- `LAG`
+- `LEAD`
+- agrégations
+- création de `VIEW`
 
 ---
 
-# 🛠️ Technologies utilisées
+## 🛠️ Technologies utilisées
 
-| Technologie | Utilisation |
-|---|---|
-| MySQL | Base de données relationnelle |
-| SQL | Analyse et manipulation des données |
-| Docker | Conteneurisation de MySQL |
-| Python | Génération des données |
-| Visual Studio Code | Développement et organisation du projet |
-| MySQL Workbench | Connexion et exécution des requêtes |
-| Git | Gestion de versions |
-| GitHub | Publication future du projet |
+### Base de données
+
+- MySQL
+- SQL
+- MySQL Workbench
+- MySQL Connector/Python
+
+### Conteneurisation
+
+- Docker
+- Docker Compose
+
+### Analyse et visualisation
+
+- Python 3.13
+- Pandas
+- Matplotlib
+- SQLAlchemy
+- python-dotenv
+
+### Développement
+
+- Visual Studio Code
+- Git
+- GitHub
 
 ---
 
-# 🗂️ Structure du projet
+## 🗂️ Structure du projet
 
 ```text
 ecommerce-mysql-analysis/
 │
 ├── python/
-│   └── generate_data.py
+│   ├── generate_data.py
+│   └── visualize_data.py
+│
+├── results/
+│   ├── margin_by_category.png
+│   ├── revenue_by_category.png
+│   ├── revenue_by_month.png
+│   ├── revenue_by_region.png
+│   ├── revenue_by_year.png
+│   ├── top_10_customers.png
+│   └── top_10_products.png
 │
 ├── sql/
 │   ├── 01_create_database.sql
@@ -81,267 +106,119 @@ ecommerce-mysql-analysis/
 │   ├── 14_window_functions.sql
 │   └── 15_views.sql
 │
-├── .env
+├── .env.example
 ├── .gitignore
 ├── docker-compose.yml
 └── README.md
 ```
 
-> Le fichier `.env` est utilisé uniquement localement pour les informations sensibles et est exclu du dépôt Git grâce au fichier `.gitignore`.
+> Le fichier `.env` contenant les informations de connexion locales n'est pas publié sur GitHub.
 
 ---
 
-# 🗄️ Modèle de données
+## 🐳 Docker & MySQL
 
-La base de données utilisée dans le projet s'appelle :
+La base de données MySQL est exécutée dans un conteneur Docker.
 
-```text
-ecommerce_analysis
-```
+Le projet utilise Docker Compose pour démarrer MySQL avec :
 
-Elle contient les tables principales suivantes :
+- un serveur MySQL ;
+- le port `3306` ;
+- la base de données `ecommerce_analysis` ;
+- un volume persistant pour les données.
 
-```text
-categories
-     │
-     └── products
-             │
-             └── order_items
-                     │
-                     └── orders
-                             │
-                             ├── customers
-                             │
-                             └── payments
-```
-
-## Tables principales
-
-### `categories`
-
-Contient les catégories de produits.
-
-Principales informations :
-
-- `category_id`
-- `category_name`
-
-### `products`
-
-Contient les produits disponibles.
-
-Principales informations :
-
-- `product_id`
-- `category_id`
-- `product_name`
-- `unit_price`
-- `unit_cost`
-
-### `customers`
-
-Contient les informations relatives aux clients.
-
-Principales informations :
-
-- `customer_id`
-- `first_name`
-- `last_name`
-- `email`
-- `city`
-- `region`
-
-### `orders`
-
-Contient les commandes.
-
-Principales informations :
-
-- `order_id`
-- `customer_id`
-- `order_date`
-- `order_status`
-
-### `order_items`
-
-Contient le détail des produits présents dans les commandes.
-
-Principales informations :
-
-- `order_item_id`
-- `order_id`
-- `product_id`
-- `quantity`
-- `unit_price`
-
-### `payments`
-
-Contient les informations relatives aux paiements.
-
-Principales informations :
-
-- `payment_id`
-- `order_id`
-- `payment_date`
-- `amount`
-- `payment_status`
-
----
-
-# 📊 Volume des données
-
-Le jeu de données contient actuellement :
-
-| Élément | Nombre |
-|---|---:|
-| Catégories | 8 |
-| Produits | 40 |
-| Clients | 750 |
-| Commandes | 1 000 |
-| Lignes de commande | 2 510 |
-| Paiements | 910 |
-
-Les données ont été générées avec Python afin de disposer d'un jeu de données suffisamment réaliste pour réaliser différentes analyses SQL.
-
-Le dataset contient également volontairement certaines situations permettant de tester la qualité des données :
-
-- clients sans adresse e-mail ;
-- adresses e-mail dupliquées ;
-- différents statuts de paiement ;
-- commandes sans paiement associé.
-
----
-
-# 🐳 Environnement Docker
-
-Le projet utilise **MySQL exécuté dans un conteneur Docker**.
-
-## Configuration actuelle
-
-```text
-Container : mysql-ecommerce
-Image     : mysql:latest
-MySQL     : 26.7.0
-Host      : 127.0.0.1
-Port      : 3306
-Database  : ecommerce_analysis
-```
-
-## Démarrer MySQL
-
-Depuis le répertoire du projet :
+Démarrage :
 
 ```bash
 docker compose up -d
 ```
 
-## Vérifier le conteneur
+Vérification :
 
 ```bash
 docker ps
 ```
 
-## Vérifier la version du serveur MySQL
-
-```bash
-docker exec mysql-ecommerce mysql -uroot -p -e "SELECT VERSION();"
-```
-
-## Arrêter le conteneur
-
-```bash
-docker compose down
-```
-
-Les données MySQL sont conservées dans le volume Docker :
-
-```text
-mysql_data
-```
-
-> La version actuelle du serveur MySQL utilisée dans l'environnement de développement est 26.7.0.
-
 ---
 
-# 🔐 Configuration et sécurité
+## 🔐 Configuration des variables d'environnement
 
-Les informations sensibles sont stockées localement dans le fichier `.env`.
+Les informations de connexion sont stockées localement dans un fichier `.env`.
 
 Exemple :
 
 ```env
-MYSQL_ROOT_PASSWORD=YOUR_MYSQL_PASSWORD
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=YOUR_PASSWORD
+MYSQL_DATABASE=ecommerce_analysis
 ```
 
-Le fichier `.env` est exclu du dépôt Git grâce au fichier `.gitignore`.
+Le fichier `.env` est ignoré par Git grâce au `.gitignore`.
 
-> ⚠️ Le mot de passe réel utilisé en local ne doit jamais être publié sur GitHub.
+Un fichier `.env.example` est fourni dans le repository avec des valeurs génériques.
 
 ---
 
-# 🔌 Connexion à MySQL
+## ⚡ Quick Start
 
-Les paramètres de connexion utilisés localement sont :
-
-```text
-Host     : 127.0.0.1
-Port     : 3306
-User     : root
-Database : ecommerce_analysis
-Password : défini dans .env
+```bash
+git clone https://github.com/JihadKeraoui/ecommerce-mysql-analysis.git
+cd ecommerce-mysql-analysis
+docker compose up -d
 ```
 
-La connexion peut être effectuée avec MySQL Workbench ou tout autre client MySQL compatible.
+Puis :
+
+1. Configurer le fichier `.env`.
+2. Ouvrir MySQL Workbench.
+3. Se connecter au serveur MySQL.
+4. Exécuter les scripts SQL dans l'ordre.
+5. Installer les dépendances Python.
+6. Exécuter le script de visualisation.
+
+Installation des dépendances :
+
+```bash
+python -m pip install pandas matplotlib mysql-connector-python python-dotenv sqlalchemy
+```
+
+Exécution des visualisations :
+
+```bash
+python python/visualize_data.py
+```
+
+Les graphiques sont générés dans le dossier `results/`.
 
 ---
 
-# ▶️ Exécution du projet
+## 🗄️ Création et alimentation de la base
 
-Les scripts SQL doivent être exécutés dans l'ordre suivant :
+Les scripts SQL sont organisés dans un ordre logique.
 
-```text
-01_create_database.sql
-02_create_tables.sql
-03_insert_data.sql
-04_data_quality.sql
-05_basic_analysis.sql
-06_join_analysis.sql
-07_kpi.sql
-08_product_analysis.sql
-09_region_analysis.sql
-10_time_analysis.sql
-11_customer_analysis.sql
-12_subqueries.sql
-13_cte_analysis.sql
-14_window_functions.sql
-15_views.sql
-```
-
----
-
-# 📋 Description des scripts SQL
-
-## 01 — Création de la base de données
+### 01 — Création de la base
 
 ```text
-01_create_database.sql
+sql/01_create_database.sql
 ```
 
-Ce script :
-
-- supprime l'ancienne base si elle existe ;
-- crée la base `ecommerce_analysis` ;
-- configure l'encodage `utf8mb4`.
-
----
-
-## 02 — Création des tables
+Création de la base :
 
 ```text
-02_create_tables.sql
+ecommerce_analysis
 ```
 
-Création des tables :
+avec l'encodage `utf8mb4`.
+
+### 02 — Création des tables
+
+```text
+sql/02_create_tables.sql
+```
+
+Tables principales :
 
 - `categories`
 - `customers`
@@ -350,200 +227,275 @@ Création des tables :
 - `order_items`
 - `payments`
 
-Les clés primaires, clés étrangères et contraintes d'intégrité sont également définies.
+Les relations sont définies avec des clés primaires et étrangères.
 
----
-
-## 03 — Insertion des données
+### 03 — Insertion des données
 
 ```text
-03_insert_data.sql
+sql/03_insert_data.sql
 ```
 
-Insertion du jeu de données généré avec Python.
+Insertion du jeu de données e-commerce.
 
 ---
 
-## 04 — Data Quality
+## 📦 Volume des données
+
+| Table | Nombre de lignes |
+|---|---:|
+| Categories | 8 |
+| Products | 40 |
+| Customers | 750 |
+| Orders | 1 000 |
+| Order items | 2 510 |
+| Payments | 910 |
+
+Le jeu de données permet d'analyser les ventes, les clients, les produits, les catégories, les régions et les paiements.
+
+---
+
+## 🔎 Qualité des données
+
+Le script :
 
 ```text
-04_data_quality.sql
+sql/04_data_quality.sql
 ```
 
-Contrôles réalisés :
+contrôle notamment :
 
-- clients sans email ;
-- emails dupliqués ;
-- prix invalides ;
-- quantités invalides ;
-- commandes orphelines ;
-- lignes de commande orphelines ;
-- incohérences entre commandes et paiements.
+- les clients sans adresse e-mail ;
+- les doublons d'e-mails ;
+- les prix invalides ;
+- les quantités invalides ;
+- les commandes orphelines ;
+- les lignes de commandes orphelines ;
+- les incohérences de montants de paiement.
+
+Le jeu de données contient volontairement certaines anomalies afin de tester les contrôles de qualité.
 
 ---
+
+# 📈 Analyses SQL
 
 ## 05 — Analyse de base
 
 ```text
-05_basic_analysis.sql
+sql/05_basic_analysis.sql
 ```
 
-Calcul de plusieurs indicateurs de base :
+Principaux résultats :
 
-- nombre de clients ;
-- nombre de commandes ;
-- nombre de produits ;
-- chiffre d'affaires ;
-- unités vendues ;
-- panier moyen ;
-- nombre moyen d'articles par commande.
+| Indicateur | Résultat |
+|---|---:|
+| Clients | 750 |
+| Commandes | 1 000 |
+| Produits | 40 |
+| Chiffre d'affaires | 2 220 022,87 MAD |
+| Unités vendues | 5 064 |
+
+Panier moyen :
+
+**≈ 2 220,02 MAD**
 
 ---
 
-## 06 — Analyse avec JOIN
+## 06 — Analyses avec JOIN
 
 ```text
-06_join_analysis.sql
+sql/06_join_analysis.sql
 ```
 
-Analyse :
+Cette étape analyse :
 
-- des meilleurs clients ;
-- du chiffre d'affaires par catégorie ;
-- des produits les plus performants ;
-- du chiffre d'affaires par région.
+- les meilleurs clients ;
+- le chiffre d'affaires par catégorie ;
+- les meilleurs produits ;
+- le chiffre d'affaires par région.
+
+### Chiffre d'affaires par catégorie
+
+| Catégorie | CA |
+|---|---:|
+| Laptops | 812 048,35 MAD |
+| Smartphones | 592 291,27 MAD |
+| Tablets | 291 668,16 MAD |
+| Monitors | 223 062,89 MAD |
+| Printers | 120 062,39 MAD |
+| Headphones | 92 088,74 MAD |
+| Keyboards | 59 036,69 MAD |
+| Accessories | 29 764,38 MAD |
+
+Les **Laptops** représentent la catégorie avec le chiffre d'affaires le plus élevé.
 
 ---
 
-## 07 — KPI
+## 📊 07 — KPI commerciaux
 
 ```text
-07_kpi.sql
+sql/07_kpi.sql
 ```
 
-Calcul de plusieurs indicateurs de performance :
+Le script regroupe plusieurs indicateurs de performance :
 
 - chiffre d'affaires ;
 - nombre de commandes ;
-- nombre de clients ;
 - unités vendues ;
 - panier moyen ;
+- clients ;
 - marge brute ;
 - taux de marge.
 
----
+Chiffre d'affaires total :
 
-## 08 — Analyse des produits
+**2 220 022,87 MAD**
 
-```text
-08_product_analysis.sql
-```
+Marge brute totale :
 
-Analyse :
+**≈ 740 252 MAD**
 
-- du chiffre d'affaires par produit ;
-- des produits les plus vendus ;
-- des produits les moins performants ;
-- de la marge par catégorie ;
-- du taux de marge par catégorie.
+Taux de marge global :
+
+**≈ 33,34 %**
 
 ---
 
-## 09 — Analyse régionale
+## 🏆 08 — Analyse des produits
 
 ```text
-09_region_analysis.sql
+sql/08_product_analysis.sql
 ```
 
-Comparaison des régions selon :
+Analyses réalisées :
 
-- chiffre d'affaires ;
+- produits avec le plus gros chiffre d'affaires ;
+- produits les plus vendus en volume ;
+- produits avec les plus faibles performances ;
+- marge par catégorie ;
+- taux de marge par catégorie.
+
+Le produit générant le plus de chiffre d'affaires est :
+
+**Phone Max — ≈ 230 650,92 MAD**
+
+---
+
+## 🌍 09 — Analyse régionale
+
+```text
+sql/09_region_analysis.sql
+```
+
+Analyses :
+
+- CA par région ;
 - nombre de clients ;
 - nombre de commandes ;
 - unités vendues ;
 - panier moyen ;
 - marge ;
 - taux de marge ;
-- classement ;
-- part du chiffre d'affaires.
+- classement des régions ;
+- part de chaque région dans le CA.
+
+### Classement par chiffre d'affaires
+
+| Région | CA |
+|---|---:|
+| Bretagne | 343 639,41 MAD |
+| Occitanie | 321 350,48 MAD |
+| Hauts-de-France | 320 612,75 MAD |
+| Nouvelle-Aquitaine | 286 914,33 MAD |
+| Grand Est | 283 141,69 MAD |
+| Auvergne-Rhône-Alpes | 232 926,88 MAD |
+| Île-de-France | 219 310,17 MAD |
+| Provence-Alpes-Côte d'Azur | 212 127,16 MAD |
+
+La **Bretagne** est la région générant le chiffre d'affaires le plus élevé.
 
 ---
 
-## 10 — Analyse temporelle
+## 📅 10 — Analyse temporelle
 
 ```text
-10_time_analysis.sql
+sql/10_time_analysis.sql
 ```
 
-Analyse :
+Analyses :
 
-- du chiffre d'affaires annuel ;
-- du chiffre d'affaires trimestriel ;
-- du chiffre d'affaires mensuel ;
-- du nombre de commandes ;
-- du classement des périodes ;
-- du panier moyen ;
-- de l'évolution des ventes.
+- CA annuel ;
+- CA trimestriel ;
+- CA mensuel ;
+- classement des périodes ;
+- panier moyen mensuel.
+
+### CA annuel
+
+| Année | CA |
+|---|---:|
+| 2023 | 760 050,77 MAD |
+| 2024 | 692 697,79 MAD |
+| 2025 | 767 274,31 MAD |
+
+L'année 2024 présente une baisse par rapport à 2023, tandis que 2025 montre un rebond.
 
 ---
 
-## 11 — Analyse des clients
+## 👥 11 — Analyse des clients
 
 ```text
-11_customer_analysis.sql
+sql/11_customer_analysis.sql
 ```
 
-Analyse :
+Analyses :
 
-- des meilleurs clients ;
-- du nombre de commandes par client ;
-- du chiffre d'affaires par client ;
-- du panier moyen ;
-- des clients actifs ;
-- des clients n'ayant jamais commandé.
+- meilleurs clients ;
+- commandes par client ;
+- CA par client ;
+- panier moyen ;
+- clients actifs ;
+- clients inactifs.
 
 ---
 
-## 12 — Sous-requêtes
+## 🔍 12 — Sous-requêtes
 
 ```text
-12_subqueries.sql
+sql/12_subqueries.sql
 ```
 
-Utilisation de sous-requêtes pour réaliser différentes analyses comparatives.
+Utilisation de sous-requêtes pour réaliser des analyses comparatives et identifier notamment :
 
-Exemples :
-
-- clients ayant un chiffre d'affaires supérieur à la moyenne ;
-- produits dont les performances sont supérieures à la moyenne ;
-- recherche d'entités sans activité.
+- les clients au-dessus de la moyenne ;
+- les produits dépassant certains seuils ;
+- les produits sans ventes.
 
 ---
 
-## 13 — CTE
+## 🧩 13 — CTE
 
 ```text
-13_cte_analysis.sql
+sql/13_cte_analysis.sql
 ```
 
-Utilisation des **Common Table Expressions (`WITH`)** pour construire des analyses complexes en plusieurs étapes.
+Utilisation des `Common Table Expressions` avec `WITH` pour construire des analyses SQL lisibles et réutilisables.
 
-Exemples :
+Analyses notamment réalisées :
 
-- chiffre d'affaires des clients supérieur à la moyenne ;
+- CA client comparé à la moyenne ;
 - évolution mensuelle ;
-- comparaison avec les périodes précédentes ;
-- part des catégories dans le chiffre d'affaires.
+- comparaison avec le mois précédent ;
+- contribution des catégories.
 
 ---
 
-## 14 — Window Functions
+## 📊 14 — Window Functions
 
 ```text
-14_window_functions.sql
+sql/14_window_functions.sql
 ```
 
-Utilisation notamment de :
+Fonctions utilisées :
 
 - `RANK()`
 - `DENSE_RANK()`
@@ -552,23 +504,18 @@ Utilisation notamment de :
 - `LEAD()`
 - `NTILE()`
 - `FIRST_VALUE()`
-
-ainsi que :
-
 - sommes cumulées ;
-- analyses Pareto ;
-- moyennes mobiles ;
-- comparaison entre périodes.
+- moyennes mobiles.
 
 ---
 
-## 15 — Views
+## 👁️ 15 — Views
 
 ```text
-15_views.sql
+sql/15_views.sql
 ```
 
-Création de plusieurs vues analytiques réutilisables :
+Création des vues analytiques :
 
 ```text
 vw_customer_revenue
@@ -577,147 +524,109 @@ vw_monthly_revenue
 vw_region_kpi
 ```
 
-Ces vues permettent de simplifier les analyses futures et de préparer les données pour les visualisations.
+Ces vues permettent de réutiliser facilement les résultats analytiques.
 
 ---
 
-# 📈 Principaux résultats
+# 🐍 Analyse et visualisation avec Python
 
-Les principaux indicateurs obtenus à partir des analyses SQL sont :
+Le script :
 
-| KPI | Valeur |
-|---|---:|
-| Catégories | 8 |
-| Produits | 40 |
-| Clients | 750 |
-| Commandes | 1 000 |
-| Lignes de commande | 2 510 |
-| Paiements | 910 |
-| Unités vendues | 5 064 |
-| Chiffre d'affaires | 2 220 022,87 |
-| Panier moyen | ≈ 2 220 |
+```text
+python/visualize_data.py
+```
+
+se connecte à MySQL et récupère les données nécessaires aux visualisations.
+
+Bibliothèques utilisées :
+
+- Pandas ;
+- MySQL Connector ;
+- SQLAlchemy ;
+- Matplotlib ;
+- python-dotenv.
 
 ---
 
-# 💡 Business Insights
+# 📊 Visualisations réalisées
 
-## Performance des catégories
+Le projet contient actuellement **7 visualisations**.
 
-La catégorie **Laptops** génère le chiffre d'affaires le plus élevé :
+## 1. Chiffre d'affaires par catégorie
 
-```text
-812 048,35
-```
-
-## Rentabilité
-
-La catégorie **Keyboards** présente le meilleur taux de marge :
-
-```text
-44,01 %
-```
-
-La catégorie **Monitors** présente le taux de marge le plus faible :
-
-```text
-21,09 %
-```
-
-## Performance régionale
-
-La **Bretagne** génère le chiffre d'affaires régional le plus élevé :
-
-```text
-343 639,41
-```
-
-Les **Hauts-de-France** présentent le panier moyen régional le plus élevé :
-
-```text
-2 485,37
-```
-
-## Évolution annuelle
-
-| Année | Chiffre d'affaires |
-|---|---:|
-| 2023 | 760 050,77 |
-| 2024 | 692 697,79 |
-| 2025 | 767 274,31 |
-
-Le chiffre d'affaires diminue en 2024 par rapport à 2023, puis progresse de nouveau en 2025.
-
-Le chiffre d'affaires de 2025 est légèrement supérieur à celui de 2023.
+![Revenue by category](results/revenue_by_category.png)
 
 ---
 
-# 💰 Analyse de la marge
+## 2. Chiffre d'affaires par région
 
-Le projet permet de calculer :
-
-- la marge brute ;
-- le taux de marge ;
-- la marge par catégorie ;
-- la comparaison entre chiffre d'affaires et coût produit.
-
-Les calculs sont réalisés principalement dans :
-
-```text
-sql/07_kpi.sql
-sql/08_product_analysis.sql
-```
-
-> La valeur totale de la marge brute n'est pas encore affichée dans ce README, car le résultat numérique du KPI doit encore être validé.
+![Revenue by region](results/revenue_by_region.png)
 
 ---
 
-# 🐍 Génération des données avec Python
+## 3. Chiffre d'affaires par année
 
-Le fichier :
-
-```text
-python/generate_data.py
-```
-
-est utilisé pour générer le jeu de données du projet.
-
-Python permet de préparer un jeu de données suffisamment volumineux et réaliste pour réaliser les différentes analyses SQL.
-
-Le fichier `03_insert_data.sql` contient ensuite les données destinées à être insérées dans MySQL.
+![Revenue by year](results/revenue_by_year.png)
 
 ---
 
-# 📊 Visualisations — prochaine étape
+## 4. Évolution mensuelle du chiffre d'affaires
 
-Les visualisations ne sont pas encore intégrées au projet.
-
-Elles seront réalisées dans une prochaine étape à partir des résultats SQL.
-
-Les graphiques prévus comprennent notamment :
-
-- chiffre d'affaires par catégorie ;
-- chiffre d'affaires par région ;
-- évolution du chiffre d'affaires dans le temps ;
-- Top 10 des produits ;
-- Top 10 des clients ;
-- marge par catégorie.
-
-Les visualisations seront réalisées avec Python, Pandas et Matplotlib.
+![Revenue by month](results/revenue_by_month.png)
 
 ---
 
-# 📊 Dashboard — évolution prévue
+## 5. Top 10 des produits
 
-Une étape ultérieure consistera à construire un dashboard permettant de présenter :
+![Top 10 products](results/top_10_products.png)
+
+---
+
+## 6. Top 10 des clients
+
+![Top 10 customers](results/top_10_customers.png)
+
+---
+
+## 7. Marge brute par catégorie
+
+![Margin by category](results/margin_by_category.png)
+
+---
+
+# 💡 Principaux insights
+
+L'analyse permet notamment de constater que :
+
+- les **Laptops** génèrent le chiffre d'affaires le plus élevé ;
+- les **Smartphones** représentent également une catégorie majeure ;
+- la **Bretagne** est la première région en chiffre d'affaires ;
+- le chiffre d'affaires baisse en 2024 avant de rebondir en 2025 ;
+- le chiffre d'affaires mensuel présente une forte variabilité ;
+- **Phone Max** est le produit générant le plus de CA ;
+- les **Laptops** génèrent la marge brute totale la plus importante ;
+- les **Keyboards** présentent le meilleur taux de marge parmi les catégories analysées ;
+- la marge brute globale est d'environ **740 252 MAD** ;
+- le taux de marge global est d'environ **33,34 %**.
+
+---
+
+# 📊 Dashboard
+
+Les visualisations actuelles sont générées avec **Python, Pandas et Matplotlib**.
+
+Une évolution possible du projet consiste à créer un dashboard interactif avec **Power BI** regroupant :
 
 - les KPI principaux ;
-- l'évolution du chiffre d'affaires ;
+- le chiffre d'affaires ;
+- l'évolution temporelle ;
 - les performances par catégorie ;
-- les performances régionales ;
+- les performances par région ;
 - les produits les plus performants ;
+- les meilleurs clients ;
 - les indicateurs de marge.
 
-Le dashboard sera développé après la finalisation des visualisations.
+Le dashboard Power BI n'est pas encore intégré au projet actuel.
 
 ---
 
@@ -725,20 +634,28 @@ Le dashboard sera développé après la finalisation des visualisations.
 
 ## SQL
 
-- `SELECT`
-- `WHERE`
-- `GROUP BY`
-- `HAVING`
-- `ORDER BY`
-- `JOIN`
+- SELECT
+- WHERE
+- GROUP BY
+- HAVING
+- ORDER BY
+- JOIN
+- LEFT JOIN
 - sous-requêtes
-- `EXISTS`
 - `NOT EXISTS`
+- fonctions d'agrégation
 - CTE
 - Window Functions
+- `RANK`
+- `DENSE_RANK`
+- `ROW_NUMBER`
+- `LAG`
+- `LEAD`
+- `NTILE`
+- `FIRST_VALUE`
 - Views
-- fonctions d'agrégation
-- fonctions temporelles
+- Data Quality
+- KPI
 
 ## Data Analysis
 
@@ -747,85 +664,124 @@ Le dashboard sera développé après la finalisation des visualisations.
 - analyse des produits ;
 - analyse géographique ;
 - analyse temporelle ;
-- calcul de KPI ;
-- analyse de marge ;
-- contrôle de la qualité des données.
+- analyse de la marge ;
+- calcul des KPI ;
+- contrôle de la qualité des données ;
+- interprétation des résultats.
+
+## Python
+
+- connexion à MySQL ;
+- Pandas ;
+- DataFrame ;
+- SQLAlchemy ;
+- gestion des variables d'environnement ;
+- Matplotlib ;
+- génération automatisée de graphiques.
 
 ## Technologies
 
-- Python
 - MySQL
-- SQL
 - Docker
+- Docker Compose
+- Python
+- Pandas
+- Matplotlib
+- SQLAlchemy
 - Visual Studio Code
-- MySQL Workbench
 - Git
 - GitHub
 
 ---
 
-# 🚀 Évolutions prévues
-
-Les prochaines étapes du projet sont :
-
-1. Créer les visualisations avec Python.
-2. Calculer et valider les KPI complémentaires.
-3. Ajouter l'analyse graphique de la marge.
-4. Créer un dashboard.
-5. Approfondir les business insights.
-6. Nettoyer et finaliser le projet.
-7. Initialiser Git.
-8. Publier le projet sur GitHub.
-
----
-
 # 🔐 Sécurité
 
-Les informations sensibles ne doivent pas être publiées dans le dépôt GitHub.
+Les informations sensibles ne doivent jamais être publiées dans le repository.
 
-Le projet utilise un fichier `.env` pour les variables sensibles.
-
-Le fichier `.gitignore` exclut notamment :
+Le fichier :
 
 ```text
 .env
-.env.*
-__pycache__/
-.venv/
-*.log
 ```
 
-> Le mot de passe MySQL réel reste uniquement dans l'environnement local.
+contient les informations de connexion locales et est exclu de Git.
 
----
-
-# 👨‍💻 Auteur
-
-Projet réalisé dans le cadre d'un portfolio personnel en **Data Analysis**.
-
-### Technologies principales
+Le fichier :
 
 ```text
-Python
-SQL
-MySQL
-Docker
-Git
-GitHub
-Data Analysis
+.env.example
+```
+
+est fourni avec des valeurs génériques.
+
+Aucun mot de passe réel ne doit être présent dans le repository.
+
+---
+
+# 🚀 Évolutions possibles
+
+Le projet actuel couvre le processus complet d'analyse, de la préparation des données jusqu'aux visualisations.
+
+Améliorations possibles :
+
+1. Créer un dashboard interactif avec Power BI.
+2. Ajouter des KPI commerciaux supplémentaires.
+3. Approfondir l'analyse de la marge par produit et par région.
+4. Ajouter une segmentation des clients.
+5. Ajouter une analyse RFM.
+6. Ajouter une analyse prédictive des ventes.
+7. Automatiser l'actualisation des données.
+8. Ajouter des tests automatisés de qualité des données.
+9. Mettre en place une pipeline ETL complète.
+
+---
+
+# 📌 Résumé du projet
+
+```text
+                  DONNÉES E-COMMERCE
+                         │
+                         ▼
+                  Génération Python
+                         │
+                         ▼
+                    MySQL / Docker
+                         │
+                         ▼
+                  Data Quality
+                         │
+                         ▼
+                   Analyse SQL
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+         KPI            CTE       Window Functions
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                       Views
+                         │
+                         ▼
+                  Python / Pandas
+                         │
+                         ▼
+                     Matplotlib
+                         │
+                         ▼
+                  7 Visualisations
+                         │
+                         ▼
+                       GitHub
 ```
 
 ---
 
-## ⭐ À propos du projet
+# 👤 Auteur
 
-Ce projet a pour objectif de démontrer la capacité à :
+**Jihad Keraoui**
 
-- concevoir une base de données relationnelle ;
-- manipuler et analyser des données avec SQL ;
-- utiliser des fonctionnalités SQL avancées ;
-- contrôler la qualité des données ;
-- calculer des KPI ;
-- analyser les performances commerciales ;
-- transformer des données brutes en informations exploitables ;
-- préparer les résultats pour une future visualisation et un dashboard.
+Projet réalisé dans le cadre de la constitution d'un portfolio personnel en **Data Analysis / Data Engineering**.
+
+🔗 GitHub :
+
+https://github.com/JihadKeraoui
